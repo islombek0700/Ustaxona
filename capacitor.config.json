@@ -1,0 +1,6 @@
+{
+  "appId": "uz.ustaxona.mobile",
+  "appName": "Ustaxona",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}
