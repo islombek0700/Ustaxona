@@ -1,51 +1,51 @@
-name: Build Android APK
+name: Android CI
 
 on:
   workflow_dispatch:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Kodni yuklash
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Node.js o'rnatish
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
 
-      - name: Install dependencies
+      - name: Paketlarni o'rnatish
         run: npm install
 
-      - name: Build web app
+      - name: React ilovani build qilish
         run: npm run build
 
-      - name: Add Android platform
+      - name: Capacitor Android qo'shish
         run: npx cap add android
 
-      - name: Sync Capacitor
+      - name: Capacitor sync
         run: npx cap sync android
 
-      - name: Setup Java
+      - name: Java o'rnatish
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
 
-      - name: Make Gradle executable
+      - name: Gradle ruxsatini berish
         run: chmod +x android/gradlew
 
-      - name: Build debug APK
+      - name: APK yaratish
         working-directory: android
         run: ./gradlew assembleDebug
 
-      - name: Upload APK
+      - name: APKni saqlash
         uses: actions/upload-artifact@v4
         with:
-          name: ustaxona-debug-apk
+          name: ustaxona-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
